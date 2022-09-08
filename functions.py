@@ -3,18 +3,6 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlunparse
 
 
-def get_all_pages(): #Laurent: on récupère l'adresse de chaque page
-    page_number = 1
-    urls = []
-
-    for i in range(3):
-        i = f"https://community.o2.co.uk/t5/Discussions-Feedback/bd-p/4/page/{page_number}"
-        page_number += 1
-        urls.append(i)
-        print(urls)
-    return urls
-
-
 def getSoupObject(domain, url_path):
     thread_url = urlunparse(('https', domain, url_path, "", "", "")) # construct the url to access the posts for each thread
     page = requests.get(thread_url)
@@ -47,3 +35,4 @@ def getNextPageUrl(soup):
     else:
         next_page_url = link["href"] # get the url for the next page 
     return next_page_url
+    

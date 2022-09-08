@@ -6,40 +6,35 @@ from bs4 import BeautifulSoup
 URL = "https://community.o2.co.uk/t5/Discussions-Feedback/bd-p/4"
 domain = urlparse(URL).netloc #community.o2.co.uk
 
-page = requests.get(URL)
-soup = BeautifulSoup(page.content, "html.parser")
+for all_pages in range(1,10):
+    page = requests.get(URL+'/page/'+str(all_pages)+'/')
+    soup = BeautifulSoup(page.content, "html.parser") #récupère le contenu de la page et parser
 
-threads = []
-
-
-# get all articles
-results = soup.find_all("article", class_="custom-message-tile")
-
-
-# get all threads titles and urls
-for thread_title in results:
-    first_element = thread_title.find("div") # get first children - the div
-    link = first_element.find("a")
+    threads = [] #récupère tous les titres et url des articles
     
-    title = link["title"] # get the title and save it 
-    url = link["href"] # get the link towards the post of the thread 
-    threads.append((title, url)) 
-    
-    chemin = r"/Users/laurentvergoz/Documents/GitHub/forum_scrapper/liste titre d'article.txt"
+    # get all articles
+    results = soup.find_all("article", class_="custom-message-tile")
+
+    # get all threads titles and urls
+    for thread_title in results:
+        first_element = thread_title.find("div") # get first children - the div
+        link = first_element.find("a")
+        
+        title = link["title"] # get the title and save it 
+        url = link["href"] # get the link towards the post of the thread 
+        threads.append((title, url)) 
+    print(threads)
+
+    chemin = r"C:\Users\devia.e16\Documents\GitHub\forum_scrapper\liste titre d'article.txt"
     with open(chemin, 'a') as f:
         f.write(f"{threads}")
-
-    
-     # TODO navigate through all the pages showing threads
-        
-
 
 # get all post content for each thread
 all_thread_posts = []
 for thread in threads:
     thread_posts = []
     thread_url_path = thread[1]
-    soupObject = fn.getSoupObject(domain, thread_url_path)
+    soupObject = fn.getSoupObject(domain, thread_url_path) #Laurent: récupère tout le contenu des post pour chaque thread 
 
     thread_posts = fn.getPostsFromPage(soupObject, thread_posts)
     next_page_url = fn.getNextPageUrl(soupObject) 
