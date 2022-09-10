@@ -20,7 +20,7 @@ def getPostsFromPage(soup, posts_content):
 
 def getNextPageUrl(soup):
     # get to next page 
-    all_next_page_link_components = soup.find_all("div", class_="lia-paging-page-next")
+    all_next_page_link_components = soup.find_all("li", class_="lia-paging-page-next")
     if len(all_next_page_link_components) < 2: # case where the thread just have one page to navigate
         return None
     
