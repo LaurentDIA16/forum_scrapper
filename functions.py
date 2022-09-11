@@ -11,16 +11,19 @@ def getSoupObject(domain, url_path):
     return soup
 
 def getPostsFromPage(soup, posts_content):
-    thread_results = soup.find_all("div", class_="lia-message-body-content") #piege ici
+    thread_results = soup.find_all("p") #piege ici
 
+    print(thread_results)
     for page_posts_content in thread_results:
         body_content = page_posts_content.get_text()   
         posts_content.append(body_content)
     return posts_content
 
+
 def getNextPageUrl(soup):
     # get to next page 
     all_next_page_link_components = soup.find_all("li", class_="lia-paging-page-next")
+    
     if len(all_next_page_link_components) < 2: # case where the thread just have one page to navigate
         return None
     
