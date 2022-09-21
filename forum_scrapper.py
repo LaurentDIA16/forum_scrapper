@@ -15,7 +15,7 @@ all_threads = []
 all_thread_posts = []
 
 #On va récupérer toutes les pages des threads (environ 930 pages)
-for all_pages in range(1,10):
+for all_pages in range(1,3):
     page = requests.get(URL+'/page/'+str(all_pages)+'/')
     soup = BeautifulSoup(page.content, "html.parser") #récupère le contenu de la page et parser
 
@@ -38,9 +38,9 @@ for all_pages in range(1,10):
         all_threads.append((title,url,views)) #titre, url, views des articles qui va s'accumuler au fil des pages
 
         #Créer un fichier txt pour y inscrire les titres, url, views 
-        chemin = r"C:\Users\devia.e16\Documents\GitHub\forum_scrapper\liste titre d'article.txt"
-        with open(chemin, 'w') as f:
-            f.write(f"{threads}")
+        #chemin = r"C:\Users\devia.e16\Documents\GitHub\forum_scrapper\liste titre d'article.txt"
+        #with open(chemin, 'w') as f:
+            #f.write(f"{threads}")
         
         #Créer un fichier csv pour y inscrire les titres, url, views 
         with open("Liste d'articles.csv","w",newline="") as file:
